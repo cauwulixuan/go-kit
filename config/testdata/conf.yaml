@@ -1,0 +1,4 @@
+db:
+  user: test
+  pass: test1234
+  dbname: test

@@ -1,0 +1,34 @@
+# svc_name added to logging module.
+svc_name: go-kit
+db:
+  name: test
+  host: 192.168.11.100
+  port: 3306
+  username: root
+  password: sdfsdf3w23r#$FES2
+  charset: utf8mb4
+auth:
+  auth_manager: http://authentication-manager.default.svc.cluster.local
+  account_server: http://account_server.default.svc.cluster.local
+
+log:
+  level: debug
+  multi_staging: true
+  rotate:
+    all_log_path: "logs/all.log"
+    warn_log_path: "logs/warn.log"
+    info_log_path: "logs/info.log"
+    max_size: 512
+    max_backups: 5
+    max_age: 30
+    compress: false
+
+http:
+  timeout: 30
+  retries:
+    max_num_of_attempts: 3
+    max_backoff_delay: 5
+
+
+app_store:
+  url: http://hello.world/

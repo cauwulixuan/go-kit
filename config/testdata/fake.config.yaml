@@ -1,0 +1,21 @@
+
+svc_name: fake
+
+db:
+  user: fake_user
+  pass: fake_pass
+  dbname: fake_db
+
+port: 30030
+
+log:
+  level: debug
+  multi_staging: true
+  rotate:
+    all_log_path: logs/all.log
+    info_log_path: logs/info.log
+    warn_log_path: logs/warn.log
+    max_size: 1024
+    max_backups: 5
+    max_age: 30
+    compress: false

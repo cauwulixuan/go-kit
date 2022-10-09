@@ -1,0 +1,24 @@
+# svc_name added to logging module.
+svc_name: go-kit
+db:
+  name: dev21
+  host: 100.2.81.21345
+  port: 3306
+  username: root
+  password: root
+  charset: utf8mb4
+auth:
+  auth_manager: http://authentication-manager.default.svc.cluster.local
+  account_server: http://account_server.default.svc.cluster.local
+
+log:
+  level: debug
+  multi_staging: true
+  rotate:
+    all_log_path: "logs/all.log"
+    warn_log_path: "logs/warn.log"
+    info_log_path: "logs/info.log"
+    max_size: 512
+    max_backups: 5
+    max_age: 30
+    compress: false
