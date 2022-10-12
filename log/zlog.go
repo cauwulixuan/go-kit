@@ -54,13 +54,16 @@ func getLogLevel(level string) zapcore.Level {
 }
 
 func init() {
+	Init()
+}
+
+func Init() {
 	multi := viper.GetBool("log.multi_staging")
 	if multi {
 		InitWithMultiLevelOutPut()
 	} else {
 		InitWithSingleLevelOutput()
 	}
-
 }
 
 func InitWithSingleLevelOutput() {
