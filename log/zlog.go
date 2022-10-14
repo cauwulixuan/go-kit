@@ -53,12 +53,7 @@ func getLogLevel(level string) zapcore.Level {
 	}
 }
 
-func init() {
-	Init()
-}
-
-func Init() {
-	multi := viper.GetBool("log.multi_staging")
+func Init(multi bool) {
 	if multi {
 		InitWithMultiLevelOutPut()
 	} else {
@@ -79,11 +74,14 @@ func InitWithSingleLevelOutput() {
 	// 2. AddStacktrace record a stack trace for all messages at or above WARN level.
 	// 3. Add serviceName field.
 	field := zap.Fields(zap.String("serviceName", viper.GetString("svc_name")))
-	logger = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zap.LevelEnablerFunc(warnLevel)), field)
+
+	// zap.AddCallerSkip(1) skip wrapper function.
+	logger = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zap.LevelEnablerFunc(warnLevel)), zap.AddCallerSkip(1), field)
 	defer logger.Sync()
 
 	zap.ReplaceGlobals(logger)
 	Slogger = logger.Sugar()
+	defer Slogger.Sync()
 	Slogger.Info("Setting logger successfully.")
 }
 
@@ -116,11 +114,14 @@ func InitWithMultiLevelOutPut() {
 	// 2. AddStacktrace record a stack trace for all messages at or above WARN level.
 	// 3. Add serviceName field.
 	field := zap.Fields(zap.String("serviceName", viper.GetString("svc_name")))
-	logger = zap.New(core, zap.AddCaller(), zap.AddStacktrace(warnLvl), field)
+
+	// zap.AddCallerSkip(1) skip wrapper function.
+	logger = zap.New(core, zap.AddCaller(), zap.AddStacktrace(warnLvl), zap.AddCallerSkip(1), field)
 	defer logger.Sync()
 
 	zap.ReplaceGlobals(logger)
 	Slogger = logger.Sugar()
+	defer Slogger.Sync()
 	Slogger.Info("Setting logger successfully.")
 
 }

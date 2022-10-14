@@ -20,7 +20,6 @@ package config
 
 import (
 	"fmt"
-	"github.com/spf13/pflag"
 	"log"
 	"os"
 	"path/filepath"
@@ -43,39 +42,8 @@ func ValidateConfigPath(path string) error {
 	return nil
 }
 
-// ParseFlags will create and parse the CLI flags
-// and return the path to be used elsewhere
-func ParseFlags() (string, error) {
-	// String that contains the configured configuration path
-	var configPath string
-
-	// Set up a CLI flag called "--config" or "-c" to allow users
-	// to supply the configuration file
-	pflag.StringVarP(&configPath, "config", "c", "./config.yaml", "path to config file")
-
-	// Actually parse the flags
-	pflag.Parse()
-
-	// Validate the path first
-	if err := ValidateConfigPath(configPath); err != nil {
-		return "", err
-	}
-
-	// Return the configuration path
-	return configPath, nil
-}
-
-// init initial config while app start
-func init() {
-	Init()
-}
-
 // Init initial config and watch config on change
-func Init() {
-	cfgPath, err := ParseFlags()
-	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %v", err))
-	}
+func Init(cfgPath string) {
 	if err := initConfig(cfgPath); err != nil {
 		panic(fmt.Errorf("Init config failed, error: %v", err))
 	}

@@ -36,12 +36,10 @@ var (
 	Client = resty.New()
 )
 
-func init() {
-	Init()
-}
-
-func Init() {
-	SetRetry()
+func Init(retry bool) {
+	if retry {
+		SetRetry()
+	}
 	SetTimeout()
 }
 
