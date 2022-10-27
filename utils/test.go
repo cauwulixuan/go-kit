@@ -19,10 +19,13 @@ limitations under the License.
 package utils
 
 import (
+	"context"
 	"fmt"
 	"github.com/cauwulixuan/go-kit/http"
+	"github.com/cauwulixuan/go-kit/k8s"
 	"github.com/cauwulixuan/go-kit/log"
 	"github.com/spf13/viper"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestLog() {
@@ -50,4 +53,12 @@ func TestConfig() {
 
 func TestHttpClient() {
 	http.GetUrl("http://hello")
+}
+
+func TestK8sClient() {
+	job, err := k8s.Client.BatchV1().Jobs("default").Get(context.Background(), "test", metav1.GetOptions{})
+	if err != nil {
+		panic(err.Error())
+	}
+	fmt.Println(job)
 }
