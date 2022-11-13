@@ -18,6 +18,7 @@ limitations under the License.
 package k8s
 
 import (
+	"github.com/cauwulixuan/go-kit/file"
 	"github.com/cauwulixuan/go-kit/log"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -37,6 +38,9 @@ func GetK8sConfig(kubePath string) (*rest.Config, error) {
 	if kubePath == "" {
 		if home := homedir.HomeDir(); home != "" {
 			kubeconfig = filepath.Join(home, ".kube", "config")
+			if !file.CheckFileExist(kubeconfig) {
+				kubeconfig = ""
+			}
 		} else {
 			kubeconfig = ""
 		}
